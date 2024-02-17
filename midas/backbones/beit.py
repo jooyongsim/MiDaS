@@ -44,6 +44,10 @@ def _get_rel_pos_bias(self, window_size):
     old_sub_table = old_relative_position_bias_table[:old_num_relative_distance - 3]
 
     old_sub_table = old_sub_table.reshape(1, old_width, old_height, -1).permute(0, 3, 1, 2)
+
+    # Convert numpy.int64 to int
+    new_width, new_height = int(new_width), int(new_height)
+    print(type(new_width),new_width,type(new_height),new_height)
     new_sub_table = F.interpolate(old_sub_table, size=(new_height, new_width), mode="bilinear")
     new_sub_table = new_sub_table.permute(0, 2, 3, 1).reshape(new_num_relative_distance - 3, -1)
 
